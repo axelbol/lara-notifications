@@ -41,6 +41,49 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div>
         </div>
       </form>
+
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        <!-- Notifications Dropdown Menu -->
+              <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                  <i class="fas fa-bell"></i>
+                    @if (count(auth()->user()->unreadNotifications))
+                    <span class="badge badge-warning">{{ count(auth()->user()->unreadNotifications) }}</span>
+                        
+                    @endif
+                  </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                <span class="dropdown-header" >Unread Notifications</span>
+                  @forelse (auth()->user()->unreadNotifications as $notification)
+                  <a href="#" class="dropdown-item">
+                    <i class="fas fa-envelope mr-2"></i> {{ $notification->data['title'] }}
+                    <span class="ml-3 pull-right text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</span>
+                  </a>
+                  @empty
+                    <span class="ml-3 pull-right text-muted text-sm">Sin notificaciones por leer </span>  
+                  @endforelse
+                  
+                  <div class="dropdown-divider"></div>
+                  <span class="dropdown-header">Read Notifications</span>
+                  @forelse (auth()->user()->readNotifications as $notification)
+                  <a href="#" class="dropdown-item">
+                    <i class="fas fa-users mr-2"></i> {{ $notification->data['description'] }}
+                    <span class="ml-3 pull-right text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</span>
+                  </a>
+                  @empty
+                    <span class="ml-3 pull-right text-muted text-sm">Sin notificaciones leidas                      </span>
+                  @endforelse
+
+                  
+                  <div class="dropdown-divider"></div>
+                  <a href="{{ route('markAsRead') }}" class="dropdown-item dropdown-footer">Mark all as read</a>
+                </div>
+              </li>
+
+      </ul>
+
     </nav>
     <!-- /.navbar -->
 
@@ -107,6 +150,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <i class="nav-icon fas fa-users"></i>
                 <p>
                   Create post
+                </p>
+              </a>
+            </li><li class="nav-item">
+              <a href="{{ route('post.index') }}" class="nav-link">
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                  Notifications
                 </p>
               </a>
             </li>
@@ -214,7 +264,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- jQuery -->
   <script src="/js/app.js"></script>
-  
+  @yield('scripts')
 </body>
 
 </html>

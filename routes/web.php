@@ -22,4 +22,12 @@ Auth::routes();
 Route::middleware(['auth'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('post', 'PostController');
+
+    Route::get('markAsRead', function(){
+        auth()->user()->unreadNotifications->markAsRead();
+        return redirect()->back();
+    })->name('markAsRead');
+
+    Route::post('/mark-as-read', 'PostController@markNotification')->name('markNotification');
+
 });
