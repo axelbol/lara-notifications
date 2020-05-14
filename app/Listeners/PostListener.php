@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Queue\InteractsWithQueue;
 
-class PostListener
+class PostListener implements ShouldQueue
 {
     /**
      * Create the event listener.
